@@ -1,5 +1,5 @@
 const generateWorkout = require("../app/utils/generateWorkout");
-const replaceExercise = require("../app/utils/replaceExercise");
+const { alternateExercises } = require("../app/utils/alternateExercises");
 describe("Workout Gen", () => {
   test("should generate correct number of workouts based on days", () => {
     const days = ["monday", "wednesday", "friday"];
@@ -39,7 +39,6 @@ describe("Workout Gen", () => {
     const days = ["monday", "tuesday", "thursday", "friday", "sunday"];
     const equipment = ["dumbbells", "gym", "bodyweight", "band"];
     const plan = generateWorkout(days, equipment);
-    console.log(JSON.stringify(plan, null, 2));
     expect(Array.isArray(plan)).toBe(true);
     expect(plan.length).toBe(days.length);
 
@@ -57,7 +56,6 @@ describe("Workout Gen", () => {
     const days = ["monday", "tuesday", "thursday", "friday", "sunday"];
     const equipment = ["dumbbells", "gym", "bodyweight", "band"];
     const plan = generateWorkout(days, equipment);
-    console.log(JSON.stringify(plan, null, 2));
     expect(Array.isArray(plan)).toBe(true);
     expect(plan.length).toBe(days.length);
 
@@ -83,7 +81,6 @@ describe("Workout Gen", () => {
     ];
     const equipment = ["dumbbells", "gym", "bodyweight", "band"];
     const plan = generateWorkout(days, equipment);
-    console.log(JSON.stringify(plan, null, 2));
     expect(Array.isArray(plan)).toBe(true);
     expect(plan.length).toBe(days.length);
 
@@ -98,8 +95,25 @@ describe("Workout Gen", () => {
       expect(day.exercises.length > 0).toBe(true);
     });
   });
+  test("should generate 6 exercises per day, 3 compound and 3 isolation", () => {
+    const days = ["monday", "tuesday"];
+    const equipment = ["dumbbells", "gym"];
+    const plan = generateWorkout(days, equipment);
+    expect(Array.isArray(plan)).toBe(true);
+    expect(plan.length).toBe(days.length);
+    plan.forEach((day) => {
+      expect(day).toHaveProperty("day");
+      expect(day).toHaveProperty("exercises");
+      expect(Array.isArray(day.exercises)).toBe(true);
+      const compoundCount = day.exercises.filter((e) => e.isCompound).length;
+      const isolationCount = day.exercises.filter((e) => !e.isCompound).length;
+      expect(compoundCount).toBe(3);
+      expect(isolationCount).toBe(3);
+      expect(day.exercises.length > 0).toBe(true);
+    });
+  });
 });
-describe.only("replace exercise", () => {
+describe("replace exercise", () => {
   test("provides a list of exercises with the same type", () => {
     const exercise = {
       name: "Romanian Deadlift",
@@ -109,7 +123,7 @@ describe.only("replace exercise", () => {
       muscleFocus: ["glutes", "hams"],
       movement: "hinge",
     };
-    const exercises = replaceExercise(exercise);
+    const exercises = alternateExercises(exercise);
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
@@ -127,7 +141,7 @@ describe.only("replace exercise", () => {
       muscleFocus: ["lats", "biceps", "upper back"],
       movement: "pull",
     };
-    const exercises = replaceExercise(exercise);
+    const exercises = alternateExercises(exercise);
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
@@ -145,7 +159,7 @@ describe.only("replace exercise", () => {
       muscleFocus: ["chest", "triceps", "shoulders"],
       movement: "press",
     };
-    const exercises = replaceExercise(exercise);
+    const exercises = alternateExercises(exercise);
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
