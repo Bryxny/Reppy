@@ -19,5 +19,9 @@
   "homepage": "https://github.com/Bryxny/workout-gen#readme",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "supertest": "^7.1.1"
   }
 }
