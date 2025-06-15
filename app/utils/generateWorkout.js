@@ -13,7 +13,6 @@ const splitMap = {
 function generateWorkout(days, equipment) {
   const routine = [];
   const dayTypes = splitMap[days.length];
-
   const legCompound = legExercises.filter((exercise) => {
     return (
       exercise.isCompound === true &&
@@ -132,9 +131,12 @@ function generateWorkout(days, equipment) {
     routine.push({
       day: days[i],
       type,
-      exercises: [...compound.slice(0, 3), ...isolation.slice(0, 3)],
+      exercises: [...compound.slice(0, 3), ...isolation.slice(0, 3)].filter(
+        Boolean
+      ),
     });
   });
+  // console.log("Routine JSON:\n", JSON.stringify(routine, null, 2));
   return routine;
 }
 
