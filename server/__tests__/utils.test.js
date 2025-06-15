@@ -1,7 +1,5 @@
-const generateWorkout = require("../server/app/utils/generateWorkout");
-const {
-  alternateExercises,
-} = require("../server/app/utils/alternateExercises");
+const generateWorkout = require("../app/utils/generateWorkout");
+const { alternateExercises } = require("../app/utils/alternateExercises");
 describe("Workout Gen", () => {
   test("should generate correct number of workouts based on days", () => {
     const days = ["monday", "wednesday", "friday"];
