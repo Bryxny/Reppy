@@ -1,0 +1,23 @@
+{
+  "name": "workout-gen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "database.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bryxny/workout-gen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bryxny/workout-gen/issues"
+  },
+  "homepage": "https://github.com/Bryxny/workout-gen#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
