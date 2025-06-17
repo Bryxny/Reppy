@@ -16,10 +16,10 @@ exports.generateWorkoutPlan = (req, res, next) => {
 };
 
 exports.getAlternateExercises = (req, res, next) => {
-  const { exercise } = req.body;
+  const { exercise, equipment } = req.body;
 
   try {
-    const alternatives = alternateExercises(exercise);
+    const alternatives = alternateExercises({ exercise, equipment });
     if (!alternatives || alternatives.length === 0) {
       return res
         .status(200)

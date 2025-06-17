@@ -89,6 +89,7 @@ describe("Alternatives", () => {
           muscleFocus: ["lats", "biceps", "upper back"],
           movement: "pull",
         },
+        equipment: ["dumbells", "gym"],
       });
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -109,6 +110,7 @@ describe("Alternatives", () => {
           muscleFocus: ["glutes", "hams"],
           movement: "hinge",
         },
+        equipment: ["dumbells", "gym"],
       });
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -129,6 +131,7 @@ describe("Alternatives", () => {
           muscleFocus: ["chest", "shoulders", "triceps"],
           movement: "press",
         },
+        equipment: ["dumbells", "gym"],
       });
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);

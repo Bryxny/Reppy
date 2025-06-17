@@ -2,8 +2,12 @@ const { legExercises } = require("../data/legExercises");
 const { pullExercises } = require("../data/pullExercises");
 const { pushExercises } = require("../data/pushExercises");
 
-function alternateExercises(exercise) {
-  const allExercises = legExercises.concat(pullExercises, pushExercises);
+function alternateExercises({ exercise, equipment }) {
+  const allExercises = legExercises
+    .concat(pullExercises, pushExercises)
+    .filter((exercise) => {
+      return exercise.equipment.some((eq) => equipment.includes(eq));
+    });
   const alternatives = [];
 
   for (const ex of allExercises) {

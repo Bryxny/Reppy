@@ -123,7 +123,8 @@ describe("replace exercise", () => {
       muscleFocus: ["glutes", "hams"],
       movement: "hinge",
     };
-    const exercises = alternateExercises(exercise);
+    const equipment = ["dumbells", "gym"];
+    const exercises = alternateExercises({ exercise, equipment });
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
@@ -141,7 +142,8 @@ describe("replace exercise", () => {
       muscleFocus: ["lats", "biceps", "upper back"],
       movement: "pull",
     };
-    const exercises = alternateExercises(exercise);
+    const equipment = ["dumbells", "gym"];
+    const exercises = alternateExercises({ exercise, equipment });
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
@@ -159,7 +161,8 @@ describe("replace exercise", () => {
       muscleFocus: ["chest", "triceps", "shoulders"],
       movement: "press",
     };
-    const exercises = alternateExercises(exercise);
+    const equipment = ["dumbells", "gym"];
+    const exercises = alternateExercises({ exercise, equipment });
     expect(Array.isArray(exercises)).toBe(true);
     expect(exercises.length).toBe(5);
 
