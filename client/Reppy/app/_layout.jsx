@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
-import { UserProvider } from "./context/UserContext";
-import { useUser } from "./context/UserContext";
+import { UserProvider } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 
 function UserLayout() {
   const { name } = useUser();

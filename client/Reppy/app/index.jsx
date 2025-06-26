@@ -1,6 +1,6 @@
 import { Text, View, TextInput, StyleSheet, Button } from "react-native";
 import { useState } from "react";
-import { useUser } from "./context/UserContext";
+import { useUser } from "../context/UserContext";
 import { router } from "expo-router";
 
 export default function Index() {
