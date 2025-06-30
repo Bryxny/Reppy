@@ -3,14 +3,7 @@ import { Text, View, Button } from "react-native";
 import DayPicker from "../components/DayPicker";
 import WorkoutSummary from "../components/WorkoutSummary";
 
-const equipmentOptions = [
-  "gym",
-  "bodyweight",
-  "dumbbells",
-  "barbell",
-  "resistance Bands",
-  "pull-up bar",
-];
+const equipmentOptions = ["gym", "bodyweight", "dumbbells", "bands"];
 
 export default function Generator() {
   const [stepIndex, setStepIndex] = useState(0);

@@ -1,9 +1,19 @@
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useCurrentExercise } from "../context/CurrentExerciseContext";
+import { Link } from "expo-router";
 
 export default function ExerciseSummary({ exercise }) {
+  const { setSelectedExercise } = useCurrentExercise();
+
   return (
-    <View>
-      <Text> {exercise.name}</Text>
-    </View>
+    <Link href="/exercise-detail" asChild>
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedExercise(exercise);
+        }}
+      >
+        <Text>{exercise.name}</Text>
+      </TouchableOpacity>
+    </Link>
   );
 }
