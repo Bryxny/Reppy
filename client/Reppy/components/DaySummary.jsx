@@ -1,9 +1,13 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Button } from "react-native";
 import ExerciseSummary from "./ExerciseSummary";
 import { useState } from "react";
+import { useRouter } from "expo-router";
+import { useCurrentExercise } from "../context/CurrentExerciseContext";
 
 export default function DaySummary({ day }) {
   const [open, setOpen] = useState(false);
+  const { setSelectedExercise } = useCurrentExercise();
+  const router = useRouter();
   return (
     <View>
       <TouchableOpacity
@@ -13,10 +17,20 @@ export default function DaySummary({ day }) {
       >
         <Text>{day.day}</Text>
       </TouchableOpacity>
-
       {open &&
         day.exercises.map((exercise) => {
-          return <ExerciseSummary key={exercise.name} exercise={exercise} />;
+          return (
+            <View key={exercise.name}>
+              <ExerciseSummary exercise={exercise} />
+              <Button
+                title="swap"
+                onPress={() => {
+                  setSelectedExercise(exercise);
+                  router.push("/swap-exercise");
+                }}
+              />
+            </View>
+          );
         })}
     </View>
   );
