@@ -2,6 +2,7 @@ import { Text, View, TextInput, StyleSheet, Button } from "react-native";
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { router } from "expo-router";
+import { Link } from "expo-router";
 
 export default function Index() {
   const { name, setName } = useUser();
@@ -26,6 +27,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
+      <Link href="/modal" style={styles.link}>
+        Open modal
+      </Link>
       <Text>What's your name?</Text>
       <TextInput
         style={styles.input}
