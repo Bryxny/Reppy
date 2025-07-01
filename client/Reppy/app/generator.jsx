@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Text, View, Button } from "react-native";
 import DayPicker from "../components/DayPicker";
 import WorkoutSummary from "../components/WorkoutSummary";
-import { useEffect } from "react";
 import { useEquipment } from "../context/EquipmentContext";
 
 const equipmentOptions = ["gym", "bodyweight", "dumbbells", "bands"];
@@ -69,12 +68,6 @@ export default function Generator() {
             Here's your personalised workout, select a day to edit the exercises
           </Text>
           <WorkoutSummary days={days} equipment={selectedEquipment} />
-          <Button
-            title="save and continue"
-            onPress={() => {
-              "navigation placeholder";
-            }}
-          />
         </View>
       )}
     </View>

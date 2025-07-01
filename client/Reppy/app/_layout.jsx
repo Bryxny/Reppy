@@ -3,18 +3,21 @@ import { CurrentExerciseProvider } from "../context/CurrentExerciseContext";
 import { UserProvider } from "../context/UserContext";
 import { useUser } from "../context/UserContext";
 import { EquipmentProvider } from "../context/EquipmentContext";
+import { PlanProvider } from "../context/PlanContext";
 
 export default function RootLayout() {
   return (
-    <EquipmentProvider>
-      <CurrentExerciseProvider>
-        <UserProvider>
-          <Stack>
-            <UserStack />
-          </Stack>
-        </UserProvider>
-      </CurrentExerciseProvider>
-    </EquipmentProvider>
+    <PlanProvider>
+      <EquipmentProvider>
+        <CurrentExerciseProvider>
+          <UserProvider>
+            <Stack>
+              <UserStack />
+            </Stack>
+          </UserProvider>
+        </CurrentExerciseProvider>
+      </EquipmentProvider>
+    </PlanProvider>
   );
 }
 
