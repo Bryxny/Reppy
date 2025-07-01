@@ -1,10 +1,13 @@
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
 import { useCurrentExercise } from "../context/CurrentExerciseContext";
 import { alternativeExercises } from "../utils/api";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useEquipment } from "../context/EquipmentContext";
 import ExerciseSummary from "../components/ExerciseSummary";
+import { usePlan } from "../context/PlanContext";
+import { router } from "expo-router";
+import { replaceExercise } from "../utils/api";
 
 export default function SwapExercise() {
   const { selectedExercise } = useCurrentExercise();
@@ -12,6 +15,7 @@ export default function SwapExercise() {
   const [error, setError] = useState(null);
   const [alternatives, setAlternatives] = useState([]);
   const { selectedEquipment } = useEquipment();
+  const { plan, setPlan } = usePlan();
 
   useEffect(() => {
     async function fetchAlternatives() {
@@ -34,6 +38,20 @@ export default function SwapExercise() {
     }
   }, [selectedExercise]);
 
+  const handleReplace = async (newEx) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const updatedPlan = await replaceExercise(plan, selectedExercise, newEx);
+      setPlan(updatedPlan);
+      router.back();
+    } catch (err) {
+      setError(err.message || "Error replacing exercise");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) return <Text>Loading Exercises....</Text>;
 
   if (error) return <Text>{error}</Text>;
@@ -41,7 +59,17 @@ export default function SwapExercise() {
     <View>
       <Text>Alternative Exercises</Text>
       {alternatives.map((exercise) => {
-        return <ExerciseSummary key={exercise.name} exercise={exercise} />;
+        return (
+          <View>
+            <ExerciseSummary key={exercise.name} exercise={exercise} />
+            <Button
+              title="choose this execise"
+              onPress={() => {
+                handleReplace(exercise);
+              }}
+            />
+          </View>
+        );
       })}
     </View>
   );
