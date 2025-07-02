@@ -3,6 +3,7 @@ const {
   alternateExercises,
   replaceExercise,
 } = require("../utils/alternateExercises");
+const { removeExercise } = require("../utils/removeExercise");
 
 exports.generateWorkoutPlan = (req, res, next) => {
   const { days, equipment } = req.body;
@@ -39,6 +40,24 @@ exports.swapExercise = (req, res, next) => {
   const { plan, oldEx, newEx } = req.body;
   try {
     const newPlan = replaceExercise(plan, oldEx, newEx);
+    res.status(200).json(newPlan);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteExercise = (req, res, next) => {
+  const { plan, exercise } = req.body;
+  if (!Array.isArray(plan)) {
+    return res.status(400).json({ error: "Invalid or missing 'plan'" });
+  }
+
+  if (!exercise || typeof exercise !== "object" || !exercise.name) {
+    return res.status(400).json({ error: "Invalid or missing 'exercise'" });
+  }
+
+  try {
+    const newPlan = removeExercise(plan, exercise);
     res.status(200).json(newPlan);
   } catch (err) {
     next(err);
