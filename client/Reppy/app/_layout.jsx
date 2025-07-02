@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { CurrentExerciseProvider } from "../context/CurrentExerciseContext";
 import { UserProvider } from "../context/UserContext";
 import { useUser } from "../context/UserContext";
 import { EquipmentProvider } from "../context/EquipmentContext";
@@ -9,13 +8,11 @@ export default function RootLayout() {
   return (
     <PlanProvider>
       <EquipmentProvider>
-        <CurrentExerciseProvider>
-          <UserProvider>
-            <Stack>
-              <UserStack />
-            </Stack>
-          </UserProvider>
-        </CurrentExerciseProvider>
+        <UserProvider>
+          <Stack>
+            <UserStack />
+          </Stack>
+        </UserProvider>
       </EquipmentProvider>
     </PlanProvider>
   );

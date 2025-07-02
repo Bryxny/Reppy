@@ -1,11 +1,10 @@
 import { Text, View } from "react-native";
-
+import { useLocalSearchParams } from "expo-router";
 export default function ExerciseDetail() {
   const { exercise } = useLocalSearchParams();
   if (!exercise || !exercise.name) {
     return <Text>No exercise data</Text>;
   }
-  console.log("Exercise detail:", exercise);
   return (
     <View>
       <Text>{exercise.name}</Text>

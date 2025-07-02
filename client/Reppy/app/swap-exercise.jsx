@@ -14,7 +14,6 @@ export default function SwapExercise() {
   const [alternatives, setAlternatives] = useState([]);
   const { selectedEquipment } = useEquipment();
   const { plan, setPlan } = usePlan();
-
   const { oldEx } = useLocalSearchParams();
   const parsedOldEx = JSON.parse(oldEx);
   const currentExercises = plan.flatMap((day) => day.exercises);
@@ -58,6 +57,7 @@ export default function SwapExercise() {
   if (loading) return <Text>Loading Exercises....</Text>;
 
   if (error) return <Text>{error}</Text>;
+
   return (
     <View>
       <Text>Alternative Exercises</Text>
