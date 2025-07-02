@@ -534,3 +534,352 @@ describe("Replace", () => {
     expect(response.body).toEqual(expectedPlan);
   });
 });
+
+describe("Remove", () => {
+  test("POST /api/delete-exercise responds with 200 and updated plan with given exercise removed", async () => {
+    const plan = [
+      {
+        day: "monday",
+        type: "Push",
+        exercises: [
+          {
+            name: "Bench Press",
+            type: ["push"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["chest", "shoulders", "triceps"],
+            movement: "press",
+          },
+          {
+            name: "Push-Up",
+            type: ["push"],
+            equipment: ["bodyweight"],
+            isCompound: true,
+            muscleFocus: ["chest", "shoulders", "triceps"],
+            movement: "press",
+          },
+          {
+            name: "Dumbbell Bench Press",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: true,
+            muscleFocus: ["chest", "triceps", "shoulders"],
+            movement: "press",
+          },
+          {
+            name: "Chest Fly",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["chest"],
+            movement: "press",
+          },
+          {
+            name: "Cable Chest Fly",
+            type: ["push"],
+            equipment: ["gym", "cable machine"],
+            isCompound: false,
+            muscleFocus: ["chest"],
+            movement: "press",
+          },
+          {
+            name: "Incline Chest Fly",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["upper chest"],
+            movement: "press",
+          },
+        ],
+      },
+      {
+        day: "wednesday",
+        type: "Pull",
+        exercises: [
+          {
+            name: "Deadlift",
+            type: ["pull"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "hams", "back"],
+            movement: "hinge",
+          },
+          {
+            name: "Pull-Up",
+            type: ["pull"],
+            equipment: ["gym", "bodyweight"],
+            isCompound: true,
+            muscleFocus: ["lats", "biceps", "upper back"],
+            movement: "pull",
+          },
+          {
+            name: "Barbell Row",
+            type: ["pull"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["lats", "upper back", "biceps"],
+            movement: "pull",
+          },
+          {
+            name: "Reverse Fly",
+            type: ["pull"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["rear delts", "upper back"],
+            movement: "pull",
+          },
+          {
+            name: "Bicep Curl",
+            type: ["pull"],
+            equipment: ["barbell", "dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["biceps"],
+            movement: "pull",
+          },
+          {
+            name: "Hammer Curl",
+            type: ["pull"],
+            equipment: ["dumbbells"],
+            isCompound: false,
+            muscleFocus: ["biceps", "forearms"],
+            movement: "pull",
+          },
+        ],
+      },
+      {
+        day: "friday",
+        type: "Legs",
+        exercises: [
+          {
+            name: "Barbell Back Squat",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "quads", "hams"],
+            movement: "squat",
+          },
+          {
+            name: "Romanian Deadlift",
+            type: ["legs"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "hams"],
+            movement: "hinge",
+          },
+          {
+            name: "Bulgarian Split Squat",
+            type: ["legs"],
+            equipment: ["dumbbells", "gym", "bodyweight"],
+            isCompound: true,
+            muscleFocus: ["glutes", "quads"],
+            movement: "lunge",
+          },
+          {
+            name: "Leg Curl",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: false,
+            muscleFocus: ["hams"],
+            movement: "isolation",
+          },
+          {
+            name: "Leg Extension",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: false,
+            muscleFocus: ["quads"],
+            movement: "isolation",
+          },
+          {
+            name: "Wall Sit",
+            type: ["legs"],
+            equipment: ["bodyweight"],
+            isCompound: false,
+            muscleFocus: ["quads"],
+            movement: "squat",
+          },
+        ],
+      },
+    ];
+    const expectedPlan = [
+      {
+        day: "monday",
+        type: "Push",
+        exercises: [
+          {
+            name: "Push-Up",
+            type: ["push"],
+            equipment: ["bodyweight"],
+            isCompound: true,
+            muscleFocus: ["chest", "shoulders", "triceps"],
+            movement: "press",
+          },
+          {
+            name: "Dumbbell Bench Press",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: true,
+            muscleFocus: ["chest", "triceps", "shoulders"],
+            movement: "press",
+          },
+          {
+            name: "Chest Fly",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["chest"],
+            movement: "press",
+          },
+          {
+            name: "Cable Chest Fly",
+            type: ["push"],
+            equipment: ["gym", "cable machine"],
+            isCompound: false,
+            muscleFocus: ["chest"],
+            movement: "press",
+          },
+          {
+            name: "Incline Chest Fly",
+            type: ["push"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["upper chest"],
+            movement: "press",
+          },
+        ],
+      },
+      {
+        day: "wednesday",
+        type: "Pull",
+        exercises: [
+          {
+            name: "Deadlift",
+            type: ["pull"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "hams", "back"],
+            movement: "hinge",
+          },
+          {
+            name: "Pull-Up",
+            type: ["pull"],
+            equipment: ["gym", "bodyweight"],
+            isCompound: true,
+            muscleFocus: ["lats", "biceps", "upper back"],
+            movement: "pull",
+          },
+          {
+            name: "Barbell Row",
+            type: ["pull"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["lats", "upper back", "biceps"],
+            movement: "pull",
+          },
+          {
+            name: "Reverse Fly",
+            type: ["pull"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["rear delts", "upper back"],
+            movement: "pull",
+          },
+          {
+            name: "Bicep Curl",
+            type: ["pull"],
+            equipment: ["barbell", "dumbbells", "gym"],
+            isCompound: false,
+            muscleFocus: ["biceps"],
+            movement: "pull",
+          },
+          {
+            name: "Hammer Curl",
+            type: ["pull"],
+            equipment: ["dumbbells"],
+            isCompound: false,
+            muscleFocus: ["biceps", "forearms"],
+            movement: "pull",
+          },
+        ],
+      },
+      {
+        day: "friday",
+        type: "Legs",
+        exercises: [
+          {
+            name: "Barbell Back Squat",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "quads", "hams"],
+            movement: "squat",
+          },
+          {
+            name: "Romanian Deadlift",
+            type: ["legs"],
+            equipment: ["dumbbells", "gym"],
+            isCompound: true,
+            muscleFocus: ["glutes", "hams"],
+            movement: "hinge",
+          },
+          {
+            name: "Bulgarian Split Squat",
+            type: ["legs"],
+            equipment: ["dumbbells", "gym", "bodyweight"],
+            isCompound: true,
+            muscleFocus: ["glutes", "quads"],
+            movement: "lunge",
+          },
+          {
+            name: "Leg Curl",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: false,
+            muscleFocus: ["hams"],
+            movement: "isolation",
+          },
+          {
+            name: "Leg Extension",
+            type: ["legs"],
+            equipment: ["gym"],
+            isCompound: false,
+            muscleFocus: ["quads"],
+            movement: "isolation",
+          },
+          {
+            name: "Wall Sit",
+            type: ["legs"],
+            equipment: ["bodyweight"],
+            isCompound: false,
+            muscleFocus: ["quads"],
+            movement: "squat",
+          },
+        ],
+      },
+    ];
+    const exercise = {
+      name: "Bench Press",
+      type: ["push"],
+      equipment: ["gym"],
+      isCompound: true,
+      muscleFocus: ["chest", "shoulders", "triceps"],
+      movement: "press",
+    };
+    const response = await request(app).post("/api/delete-exercise").send({
+      plan: plan,
+      exercise: exercise,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(expectedPlan);
+  });
+  test("POST /api/delete-exercise returns 400 if 'plan' is missing", async () => {
+    const response = await request(app)
+      .post("/api/delete-exercise")
+      .send({
+        exercise: { name: "Bench Press" },
+      });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toHaveProperty("error");
+  });
+});
