@@ -3,6 +3,7 @@ import axios from "axios";
 const endpoint = `http://192.168.1.224:9090/api`;
 
 export const createWorkout = (days, equipment) => {
+  console.log("creating workout");
   return axios
     .post(`${endpoint}/generate-plan`, { days, equipment })
     .then((response) => {
@@ -15,11 +16,16 @@ export const createWorkout = (days, equipment) => {
     });
 };
 
-export const alternativeExercises = (exercise, equipment) => {
+export const alternativeExercises = (
+  exercise,
+  equipment,
+  excludedExercises
+) => {
   return axios
     .post(`${endpoint}/get-alternatives`, {
       exercise: exercise,
       equipment: equipment,
+      excludedExercises: excludedExercises,
     })
     .then((response) => {
       console.log("response data:", response.data);

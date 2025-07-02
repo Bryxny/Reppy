@@ -140,6 +140,50 @@ describe("Alternatives", () => {
       expect(exercise.type).toEqual(["push"]);
     }
   });
+  test("POST /api/get-alternatives excludes exercises already in workout and returns up to 5 new exercises", async () => {
+    const excludedExercises = [
+      {
+        name: "Inverted Row",
+        type: ["pull"],
+        equipment: ["gym", "bodyweight"],
+        isCompound: true,
+        muscleFocus: ["lats", "biceps", "upper back"],
+        movement: "pull",
+      },
+      {
+        name: "Chin-Up",
+        type: ["pull"],
+        equipment: ["gym", "bodyweight"],
+        isCompound: true,
+        muscleFocus: ["biceps", "lats"],
+        movement: "pull",
+      },
+    ];
+
+    const response = await request(app)
+      .post("/api/get-alternatives")
+      .send({
+        exercise: {
+          name: "Pull-Up",
+          type: ["pull"],
+          equipment: ["gym", "bodyweight"],
+          isCompound: true,
+          muscleFocus: ["lats", "biceps", "upper back"],
+          movement: "pull",
+        },
+        equipment: ["dumbells", "gym"],
+        excludedExercises: excludedExercises,
+      });
+
+    expect(response.statusCode).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBeLessThanOrEqual(5);
+    const excludedNames = excludedExercises.map((ex) => ex.name);
+    for (const exercise of response.body) {
+      expect(exercise.type).toEqual(["pull"]);
+      expect(excludedNames).not.toContain(exercise.name);
+    }
+  });
 });
 
 describe("Replace", () => {

@@ -26,7 +26,12 @@ export default function DaySummary({ day }) {
                 title="swap"
                 onPress={() => {
                   setSelectedExercise(exercise);
-                  router.push("/swap-exercise");
+                  router.push({
+                    pathname: "/swap-exercise",
+                    params: {
+                      oldEx: JSON.stringify(exercise),
+                    },
+                  });
                 }}
               />
             </View>

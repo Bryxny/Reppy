@@ -2,7 +2,7 @@ const { legExercises } = require("../data/legExercises");
 const { pullExercises } = require("../data/pullExercises");
 const { pushExercises } = require("../data/pushExercises");
 
-function alternateExercises({ exercise, equipment }) {
+function alternateExercises({ exercise, equipment, excludedExercises = [] }) {
   const allExercises = legExercises
     .concat(pullExercises, pushExercises)
     .filter((exercise) => {
@@ -12,6 +12,8 @@ function alternateExercises({ exercise, equipment }) {
 
   for (const ex of allExercises) {
     if (ex.name === exercise.name) continue;
+    if (excludedExercises.some((excluded) => excluded.name === ex.name))
+      continue;
 
     if (
       ex.type[0] === exercise.type[0] &&

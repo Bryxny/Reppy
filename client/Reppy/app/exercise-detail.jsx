@@ -1,8 +1,7 @@
 import { Text, View } from "react-native";
-import { useCurrentExercise } from "../context/CurrentExerciseContext";
 
 export default function ExerciseDetail() {
-  const { selectedExercise: exercise } = useCurrentExercise();
+  const { exercise } = useLocalSearchParams();
   if (!exercise || !exercise.name) {
     return <Text>No exercise data</Text>;
   }
