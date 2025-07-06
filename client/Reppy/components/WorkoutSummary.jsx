@@ -36,7 +36,7 @@ export default function WorkoutSummary({ days, equipment }) {
         title="save and continue"
         onPress={() => {
           setWorkoutPlan(plan);
-          router.push("/home");
+          router.replace("/home");
         }}
       />
     </View>
