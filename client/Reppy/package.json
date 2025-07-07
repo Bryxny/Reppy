@@ -14,7 +14,7 @@
     "@expo/vector-icons": "^14.1.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
-    "@react-navigation/native": "^7.1.6",
+    "@react-navigation/native": "^7.1.14",
     "axios": "^1.10.0",
     "expo": "~53.0.11",
     "expo-blur": "~14.1.5",
@@ -42,9 +42,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@react-native-community/cli": "latest",
     "eslint": "^9.25.0",
-    "eslint-config-expo": "~9.2.0",
-    "@react-native-community/cli": "latest"
+    "eslint-config-expo": "~9.2.0"
   },
   "private": true
 }
