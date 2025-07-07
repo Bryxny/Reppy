@@ -8,7 +8,12 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen name="home" />
-      <Tabs.Screen name="workout" />
+      <Tabs.Screen
+        name="workout"
+        options={{
+          tabBarStyle: { display: "none" },
+        }}
+      />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
