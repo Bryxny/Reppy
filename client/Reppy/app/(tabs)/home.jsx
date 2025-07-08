@@ -7,9 +7,9 @@ import { useUser } from "../../context/UserContext";
 
 export default function Home() {
   const { todaysPlan } = useToday();
-  const { name } = useUser();
+  const { name, stats } = useUser();
   const [todaysQuote, setTodaysQuote] = useState("null");
-
+  console.log(stats);
   useEffect(() => {
     const index = Math.floor(Math.random() * quotes.length);
     setTodaysQuote(quotes[index]);
@@ -34,11 +34,12 @@ export default function Home() {
       {todaysPlan ? (
         <View>
           <Text>Todays Plan - {todaysPlan.type}, ready to go?</Text>
+          <Button title="Start Workout" />
         </View>
       ) : (
-        <Text> Rest Day</Text>
+        <Text> No workout planned for today</Text>
       )}
-      <Button title="Start Workout" />
+
       <Text>{todaysQuote}</Text>
     </View>
   );
