@@ -21,21 +21,21 @@ export function TodayProvider({ children }) {
     "saturday",
   ];
   const todaysKey = dayKeys[new Date().getDay()];
-
   useEffect(() => {
     async function loadData() {
+      if (!workoutPlan || workoutPlan.length === 0) return;
       setIsLoading(true);
       try {
         const jsonValue = await AsyncStorage.getItem(STORAGE_KEY_TODAY);
         if (jsonValue) {
           const savedData = JSON.parse(jsonValue);
+          console.log(savedData);
           if (savedData.date === new Date().toDateString()) {
             setTodaysPlan(savedData.plan);
             setIsLoading(false);
             return;
           }
         }
-
         const plan = workoutPlan.find((day) => day.day === todaysKey) || null;
         setTodaysPlan(plan);
         setIsLoading(false);
@@ -64,7 +64,7 @@ export function TodayProvider({ children }) {
       }
     }
 
-    if (!isLoading) {
+    if (!isLoading && todaysPlan !== null) {
       saveData();
     }
   }, [todaysPlan, isLoading]);

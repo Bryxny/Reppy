@@ -62,6 +62,7 @@ export default function DaySummary({ day }) {
       </TouchableOpacity>
       {open &&
         day.exercises.map((exercise) => {
+          console.log("Exercise being rendered for swap:", exercise);
           return (
             <View key={exercise.name}>
               <ExerciseSummary exercise={exercise} />

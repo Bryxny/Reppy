@@ -19,6 +19,8 @@ export default function SwapExercise() {
   const currentExercises = plan.flatMap((day) => day.exercises);
 
   useEffect(() => {
+    console.log("selectedEquipment:", selectedEquipment);
+    console.log("currentExercises:", currentExercises);
     async function fetchAlternatives() {
       setLoading(true);
       setError(null);
@@ -61,20 +63,21 @@ export default function SwapExercise() {
   return (
     <View>
       <Text>Alternative Exercises</Text>
-      {alternatives.map((exercise, index) => {
-        return (
-          <View key={`${exercise.name}${index}`}>
-            <ExerciseSummary exercise={exercise} />
-            <Button
-              disabled={loading}
-              title="choose this execise"
-              onPress={() => {
-                handleReplace(exercise);
-              }}
-            />
-          </View>
-        );
-      })}
+      {alternatives &&
+        alternatives.map((exercise, index) => {
+          return (
+            <View key={`${exercise.name}${index}`}>
+              <ExerciseSummary exercise={exercise} />
+              <Button
+                disabled={loading}
+                title="choose this execise"
+                onPress={() => {
+                  handleReplace(exercise);
+                }}
+              />
+            </View>
+          );
+        })}
     </View>
   );
 }
