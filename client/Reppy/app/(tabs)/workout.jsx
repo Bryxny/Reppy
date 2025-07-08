@@ -46,14 +46,14 @@ export default function WorkoutMode() {
     if (
       todaysPlan.type === "Push" ||
       todaysPlan.type === "Upper" ||
-      todaysPlan.type === "Full body" ||
+      todaysPlan.type === "Full Body" ||
       todaysPlan.type === "Pull"
     ) {
       newWorkout.totalUpper = 1;
     } else if (
       todaysPlan.type === "Legs" ||
       todaysPlan.type === "Lower" ||
-      todaysPlan.type === "Full body"
+      todaysPlan.type === "Full Body"
     ) {
       newWorkout.totalLower = 1;
     }
