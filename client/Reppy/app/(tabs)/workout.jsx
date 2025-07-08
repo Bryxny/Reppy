@@ -1,60 +1,99 @@
 import { Text, View, ScrollView, Alert, Button } from "react-native";
 import { useToday } from "../../context/TodayContext";
+import { useUser } from "../../context/UserContext";
 import ExerciseProgress from "../../components/ExerciseProgress";
-import { useState, useEffect } from "react";
-import { useNavigation, useRouter } from "expo-router";
+import { useState, useCallback, useRef } from "react";
+import { useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
+import Timer from "../../components/Timer";
 
 export default function WorkoutMode() {
-  const { todaysPlan } = useToday();
-  const [seconds, setSeconds] = useState(0);
+  const { todaysPlan, setTodaysPlan, isLoading } = useToday();
   const [paused, setPaused] = useState(false);
-  const navigation = useNavigation();
+  const [volume, setVolume] = useState(0);
+  const [setsPerExercise, setSetsPerExercise] = useState({});
+  const elapsedRef = useRef(0);
+  const { setStats } = useUser();
   const router = useRouter();
 
-  useEffect(() => {
-    let interval;
-    if (!paused) {
-      interval = setInterval(() => {
-        setSeconds((prev) => prev + 1);
-      }, 1000);
+  useFocusEffect(
+    useCallback(() => {
+      if (paused) setPaused(false);
+    }, [paused])
+  );
+
+  const handleSetCompleteChange = (exerciseName, completedSets) => {
+    setSetsPerExercise((prev) => ({
+      ...prev,
+      [exerciseName]: completedSets,
+    }));
+  };
+
+  const handleComplete = () => {
+    console.log(todaysPlan.type);
+    const completedSets = Object.values(setsPerExercise).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+    const newWorkout = {
+      totalWorkouts: 1,
+      totalTime: elapsedRef.current,
+      totalSets: completedSets,
+      totalVolume: volume,
+      totalUpper: 0,
+      totalLower: 0,
+    };
+    if (
+      todaysPlan.type === "Push" ||
+      todaysPlan.type === "Upper" ||
+      todaysPlan.type === "Full body" ||
+      todaysPlan.type === "Pull"
+    ) {
+      newWorkout.totalUpper = 1;
+    } else if (
+      todaysPlan.type === "Legs" ||
+      todaysPlan.type === "Lower" ||
+      todaysPlan.type === "Full body"
+    ) {
+      newWorkout.totalLower = 1;
     }
-    return () => clearInterval(interval);
-  }, [paused]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("beforeRemove", (e) => {
-      e.preventDefault();
+    setStats((prev) => ({
+      ...prev,
+      totalWorkouts: prev.totalWorkouts + newWorkout.totalWorkouts,
+      totalTime: prev.totalTime + newWorkout.totalTime,
+      totalSets: prev.totalSets + newWorkout.totalSets,
+      totalVolume: prev.totalVolume + newWorkout.totalVolume,
+      totalUpper: prev.totalUpper + newWorkout.totalUpper,
+      totalLower: prev.totalLower + newWorkout.totalLower,
+    }));
+    setTodaysPlan(null);
+    router.replace("/home");
+  };
 
-      Alert.alert("Leaving Workout", "Would you like to pause or quit?", [
-        {
-          text: "Pause",
-          onPress: () => {
-            setPaused(true);
-            unsubscribe();
-            router.push("/home");
-          },
-        },
-        {
-          text: "Quit",
-          style: "destructive",
-          onPress: () => {
-            unsubscribe();
-            router.replace("/home");
-          },
-        },
-        {
-          text: "Cancel",
-          style: "cancel",
-          onPress: () => {},
-        },
-      ]);
-    });
+  if (isLoading) return <Text>Loading Workout</Text>;
 
-    return unsubscribe;
-  }, [navigation, router]);
+  if (!todaysPlan)
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>No Workout Planned</Text>
+        <Button
+          title="return to home"
+          onPress={() => {
+            router.replace("home");
+          }}
+        />
+      </View>
+    );
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ paddingTop: 100 }}>
       <View
         style={{
           flex: 1,
@@ -66,18 +105,46 @@ export default function WorkoutMode() {
           <Button
             title="leave"
             onPress={() => {
-              router.push("home");
+              Alert.alert(
+                "Leaving Workout",
+                "Would you like to pause or quit?",
+                [
+                  {
+                    text: "Pause",
+                    onPress: () => {
+                      setPaused(true);
+                      router.push("/home");
+                    },
+                  },
+                  {
+                    text: "Quit",
+                    style: "destructive",
+                    onPress: () => {
+                      setSeconds(0);
+                      setPaused(false);
+                      router.replace("/home");
+                    },
+                  },
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                ]
+              );
             }}
           />
+          <Timer paused={paused} elapsedRef={elapsedRef} />
+          <Button title="end workout" onPress={handleComplete} />
         </View>
-        <Text>Elapsed: {seconds} s</Text>
-        {todaysPlan ? (
-          todaysPlan.exercises.map((exercise) => (
-            <ExerciseProgress key={exercise.name} exercise={exercise} />
-          ))
-        ) : (
-          <Text>rest day</Text>
-        )}
+        <Text>{volume}kg</Text>
+        {todaysPlan.exercises.map((exercise) => (
+          <ExerciseProgress
+            key={exercise.name}
+            exercise={exercise}
+            setVolume={setVolume}
+            handleSetCompleteChange={handleSetCompleteChange}
+          />
+        ))}
       </View>
     </ScrollView>
   );

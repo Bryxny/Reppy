@@ -28,7 +28,9 @@ export function TodayProvider({ children }) {
   }, [workoutPlan, todaysKey]);
 
   return (
-    <TodayContext.Provider value={{ todaysPlan, isLoading, todaysKey }}>
+    <TodayContext.Provider
+      value={{ todaysPlan, isLoading, todaysKey, setTodaysPlan }}
+    >
       {children}
     </TodayContext.Provider>
   );

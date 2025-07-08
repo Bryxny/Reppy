@@ -5,7 +5,14 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [workoutPlan, setWorkoutPlan] = useState([]);
-  const [stats, setStats] = useState([]);
+  const [stats, setStats] = useState({
+    totalWorkouts: 0,
+    totalTime: 0,
+    totalSets: 0,
+    totalVolume: 0,
+    totalUpper: 0,
+    totalLower: 0,
+  });
 
   return (
     <UserContext.Provider
