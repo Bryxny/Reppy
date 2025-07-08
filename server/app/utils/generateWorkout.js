@@ -130,7 +130,7 @@ function generateWorkout(days, equipment) {
     }
     routine.push({
       day: days[i],
-      type,
+      type: type.toLowerCase().includes("full body") ? "Full Body" : type,
       exercises: [...compound.slice(0, 3), ...isolation.slice(0, 3)].filter(
         Boolean
       ),
