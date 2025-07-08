@@ -1,5 +1,5 @@
 import { Text, View, TextInput, StyleSheet, Button } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { router } from "expo-router";
 import { Link } from "expo-router";
@@ -8,6 +8,12 @@ export default function Index() {
   const { name, setName } = useUser();
   const [nameInput, setNameInput] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (name) {
+      router.replace("/home");
+    }
+  }, [name]);
 
   async function handleLogin() {
     if (nameInput.trim()) {

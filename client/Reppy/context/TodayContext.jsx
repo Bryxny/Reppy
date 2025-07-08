@@ -1,6 +1,8 @@
-// context/TodayContext.js
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUser } from "./UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORAGE_KEY_TODAY = "@today_plan_data";
 
 const TodayContext = createContext();
 
@@ -21,11 +23,51 @@ export function TodayProvider({ children }) {
   const todaysKey = dayKeys[new Date().getDay()];
 
   useEffect(() => {
-    setIsLoading(true);
-    const plan = workoutPlan.find((day) => day.day === todaysKey) || null;
-    setTodaysPlan(plan);
-    setIsLoading(false);
+    async function loadData() {
+      setIsLoading(true);
+      try {
+        const jsonValue = await AsyncStorage.getItem(STORAGE_KEY_TODAY);
+        if (jsonValue) {
+          const savedData = JSON.parse(jsonValue);
+          if (savedData.date === new Date().toDateString()) {
+            setTodaysPlan(savedData.plan);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        const plan = workoutPlan.find((day) => day.day === todaysKey) || null;
+        setTodaysPlan(plan);
+        setIsLoading(false);
+      } catch (e) {
+        console.log("Failed to load today's plan", e);
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
   }, [workoutPlan, todaysKey]);
+
+  useEffect(() => {
+    async function saveData() {
+      try {
+        const dataToSave = {
+          date: new Date().toDateString(),
+          plan: todaysPlan,
+        };
+        await AsyncStorage.setItem(
+          STORAGE_KEY_TODAY,
+          JSON.stringify(dataToSave)
+        );
+      } catch (e) {
+        console.log("Failed to save today's plan", e);
+      }
+    }
+
+    if (!isLoading) {
+      saveData();
+    }
+  }, [todaysPlan, isLoading]);
 
   return (
     <TodayContext.Provider
