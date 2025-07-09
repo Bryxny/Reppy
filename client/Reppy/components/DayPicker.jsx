@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, TouchableOpacity } from "react-native";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 const dayLabels = {
   monday: "M",
@@ -44,20 +45,32 @@ export default function DayPicker({ setDays, setStepIndex }) {
   };
 
   return (
-    <View>
-      {Object.entries(dayLabels).map(([day, label]) => {
-        return (
-          <View key={day}>
-            <Text>{label}</Text>
-            <Button
-              onPress={() => toggleDay(day)}
-              title={daysOfWeek[day] ? "Selected" : "Select"}
-            />
-          </View>
-        );
-      })}
-      <Button title="submit" onPress={handleDays} />
-      {error && <Text>{error}</Text>}
+    <View className="items-center justify-center gap-16">
+      <View className="flex-row justify-center gap-5">
+        {Object.entries(dayLabels).map(([day, label]) => {
+          return (
+            <View key={day}>
+              <Text className="text-3xl font-bold mb-3 text-grey text-center">
+                {label}
+              </Text>
+              <TouchableOpacity onPress={() => toggleDay(day)}>
+                <FontAwesome
+                  name={daysOfWeek[day] ? "check-circle" : "circle-o"}
+                  size={36}
+                  color="#a5aacc"
+                />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </View>
+
+      <TouchableOpacity onPress={handleDays}>
+        <AntDesign name="rightcircle" size={40} color="#b0cca5" />
+      </TouchableOpacity>
+      <Text className="text-l mb-4 text-grey text-center mt-5 h-5">
+        {error || " "}
+      </Text>
     </View>
   );
 }

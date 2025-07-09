@@ -5,11 +5,13 @@ import { useUser } from "../../context/UserContext";
 import DaySummary from "../../components/DaySummary";
 import { usePlan } from "../../context/PlanContext";
 import { useEffect } from "react";
+import { useEquipment } from "../../context/EquipmentContext";
 
 export default function Profile() {
   const { setName, setWorkoutPlan, setStats, name, stats, workoutPlan } =
     useUser();
   const { plan, setPlan } = usePlan();
+  const { setSelectedEquipment } = useEquipment();
 
   useEffect(() => {
     setPlan(workoutPlan);
@@ -29,7 +31,10 @@ export default function Profile() {
         totalUpper: 0,
         totalLower: 0,
       });
-      router.replace("/");
+      setSelectedEquipment([]);
+      setTimeout(() => {
+        router.replace("/");
+      }, 50);
     } catch (e) {
       console.log("Failed to clear AsyncStorage", e);
     }

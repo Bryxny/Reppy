@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     totalUpper: 0,
     totalLower: 0,
   });
-
+  const [hasInitialized, setHasInitialized] = useState(false);
   useEffect(() => {
     (async () => {
       try {
@@ -38,12 +38,14 @@ export const UserProvider = ({ children }) => {
         }
       } catch (e) {
         console.log("Failed to load user data", e);
+      } finally {
+        setHasInitialized(true);
       }
     })();
   }, []);
 
   useEffect(() => {
-    console.log("Saving user data", { name, workoutPlan, stats });
+    if (!hasInitialized) return;
     (async () => {
       try {
         const dataToSave = JSON.stringify({ name, workoutPlan, stats });
@@ -63,6 +65,7 @@ export const UserProvider = ({ children }) => {
         setWorkoutPlan,
         stats,
         setStats,
+        hasInitialized,
       }}
     >
       {children}

@@ -120,7 +120,6 @@ export default function WorkoutMode() {
                     text: "Quit",
                     style: "destructive",
                     onPress: () => {
-                      setSeconds(0);
                       setPaused(false);
                       router.replace("/home");
                     },
