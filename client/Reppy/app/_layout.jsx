@@ -4,6 +4,7 @@ import { useUser } from "../context/UserContext";
 import { EquipmentProvider } from "../context/EquipmentContext";
 import { PlanProvider } from "../context/PlanContext";
 import { TodayProvider } from "../context/TodayContext";
+import "../global.css";
 
 export default function RootLayout() {
   return (

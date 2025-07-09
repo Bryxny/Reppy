@@ -1,4 +1,4 @@
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, TouchableOpacity } from "react-native";
 import { alternativeExercises } from "../utils/api";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -8,6 +8,17 @@ import { usePlan } from "../context/PlanContext";
 import { router } from "expo-router";
 import { replaceExercise } from "../utils/api";
 import { useLocalSearchParams } from "expo-router";
+import { AntDesign, Feather } from "@expo/vector-icons";
+
+const bgColors = [
+  "#a5aacc",
+  "#b0cca5",
+  "#f9eaa1",
+  "#a5aacc",
+  "#b0cca5",
+  "#f9eaa1",
+];
+
 export default function SwapExercise() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,8 +30,6 @@ export default function SwapExercise() {
   const currentExercises = plan.flatMap((day) => day.exercises);
 
   useEffect(() => {
-    console.log("selectedEquipment:", selectedEquipment);
-    console.log("currentExercises:", currentExercises);
     async function fetchAlternatives() {
       setLoading(true);
       setError(null);
@@ -61,23 +70,46 @@ export default function SwapExercise() {
   if (error) return <Text>{error}</Text>;
 
   return (
-    <View>
-      <Text>Alternative Exercises</Text>
+    <View className="flex-1 flex-col items-center justify-center bg-black gap-2 p-16">
+      <Text className="text-2xl font-bold mb-10 text-grey text-center tracking-widest ">
+        Pick an exercise that works for you
+      </Text>
       {alternatives &&
         alternatives.map((exercise, index) => {
           return (
-            <View key={`${exercise.name}${index}`}>
-              <ExerciseSummary exercise={exercise} />
-              <Button
+            <View
+              key={`${exercise.name}${index}`}
+              style={{ backgroundColor: bgColors[index] }}
+              className="flex-row p-4 rounded-xl justify-between items-center"
+            >
+              <View style={{ flex: 1 }}>
+                <ExerciseSummary exercise={exercise} />
+              </View>
+
+              <TouchableOpacity
                 disabled={loading}
-                title="choose this execise"
                 onPress={() => {
                   handleReplace(exercise);
                 }}
-              />
+                className="px-3"
+              >
+                <Feather name="repeat" size={20} color="#29272f" />
+              </TouchableOpacity>
             </View>
           );
         })}
+      <TouchableOpacity
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <AntDesign
+          name="leftcircle"
+          size={40}
+          color="#f9eaa1"
+          className="mt-10"
+        />
+      </TouchableOpacity>
     </View>
   );
 }
