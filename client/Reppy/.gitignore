@@ -38,5 +38,5 @@ yarn-error.*
 
 app-example
 
-app/utils/api.js
+utils/api.js
 nativewind-env.d.ts
