@@ -11,7 +11,6 @@ export default function Home() {
   const { todaysPlan } = useToday();
   const { name, stats, workoutPlan } = useUser();
   const [todaysQuote, setTodaysQuote] = useState("null");
-  console.log(stats);
   useEffect(() => {
     const index = Math.floor(Math.random() * quotes.length);
     setTodaysQuote(quotes[index]);

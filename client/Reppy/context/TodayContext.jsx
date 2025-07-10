@@ -29,7 +29,7 @@ export function TodayProvider({ children }) {
         const jsonValue = await AsyncStorage.getItem(STORAGE_KEY_TODAY);
         if (jsonValue) {
           const savedData = JSON.parse(jsonValue);
-          console.log(savedData);
+
           if (savedData.date === new Date().toDateString()) {
             setTodaysPlan(savedData.plan);
             setIsLoading(false);
@@ -40,7 +40,6 @@ export function TodayProvider({ children }) {
         setTodaysPlan(plan);
         setIsLoading(false);
       } catch (e) {
-        console.log("Failed to load today's plan", e);
         setIsLoading(false);
       }
     }
@@ -59,9 +58,7 @@ export function TodayProvider({ children }) {
           STORAGE_KEY_TODAY,
           JSON.stringify(dataToSave)
         );
-      } catch (e) {
-        console.log("Failed to save today's plan", e);
-      }
+      } catch (e) {}
     }
 
     if (!isLoading && todaysPlan !== null) {

@@ -49,7 +49,6 @@ export default function WorkoutMode() {
   };
 
   const handleComplete = () => {
-    console.log(todaysPlan.type);
     const completedSets = Object.values(setsPerExercise).reduce(
       (acc, curr) => acc + curr,
       0
@@ -72,6 +71,8 @@ export default function WorkoutMode() {
     } else if (
       todaysPlan.type === "Legs" ||
       todaysPlan.type === "Lower" ||
+      todaysPlan.type === "Glutes" ||
+      todaysPlan.type === "Quads" ||
       todaysPlan.type === "Full Body"
     ) {
       newWorkout.totalLower = 1;
@@ -99,9 +100,9 @@ export default function WorkoutMode() {
 
   if (!todaysPlan)
     return (
-      <View className="flex-1 flex-col bg-white gap-5 p-16 justify-center align-center items-center">
+      <View className="flex-1 flex-col bg-black gap-5 p-16 justify-center align-center items-center">
         <Image source={graphic} className="w-60 h-96" />
-        <Text className="color-black text-xl font-bold text-center">
+        <Text className="color-white text-xl font-bold text-center">
           No workout planned, perfect chance to recharge.
         </Text>
         <TouchableOpacity
@@ -118,8 +119,8 @@ export default function WorkoutMode() {
     );
 
   return (
-    <ScrollView>
-      <View className="mt-10 flex-start flex-col  gap-10 p-8 justify-center">
+    <ScrollView className=" bg-grey">
+      <View className="mt-10 flex-start  flex-col gap-10 p-8 justify-center">
         <View className="flex-row justify-between items-center ">
           <TouchableOpacity
             className="bg-black rounded-2xl p-2"
@@ -158,7 +159,6 @@ export default function WorkoutMode() {
           <View className="bg-black rounded-2xl p-2 px-3">
             <Text className="color-yellow text-xl font-bold">{volume}kg</Text>
           </View>
-          =
           <TouchableOpacity
             onPress={handleComplete}
             className="bg-black rounded-2xl p-2"

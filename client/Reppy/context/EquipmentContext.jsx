@@ -14,9 +14,7 @@ export const EquipmentProvider = ({ children }) => {
         if (saved) {
           setSelectedEquipment(JSON.parse(saved));
         }
-      } catch (e) {
-        console.log("Failed to load selected equipment from storage", e);
-      }
+      } catch (e) {}
     }
     loadEquipment();
   }, []);
@@ -28,9 +26,7 @@ export const EquipmentProvider = ({ children }) => {
           STORAGE_KEY_EQUIPMENT,
           JSON.stringify(selectedEquipment)
         );
-      } catch (e) {
-        console.log("Failed to save selected equipment", e);
-      }
+      } catch (e) {}
     }
     saveEquipment();
   }, [selectedEquipment]);

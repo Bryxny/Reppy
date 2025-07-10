@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, Button } from "react-native";
 import { useToday } from "../context/TodayContext";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { useUser } from "../context/UserContext";
 const dayLabels = {
   sunday: "S",
   monday: "M",
@@ -22,9 +23,12 @@ const bgColors = [
 ];
 
 export default function Calender() {
-  const { todaysPlan, todaysKey, loading } = useToday();
+  const { workoutPlan } = useUser();
 
-  if (loading) return <Text>Loading...</Text>;
+  const days = workoutPlan.map((day) => {
+    return day.day;
+  });
+
   return (
     <View
       className="flex-row justify-center gap-5 bg-black p-7 rounded-3xl"
@@ -44,7 +48,7 @@ export default function Calender() {
             </Text>
 
             <FontAwesome
-              name={day === todaysKey ? "circle" : "circle-o"}
+              name={days.includes(day) ? "circle" : "circle-o"}
               size={28}
               color={bgColors[i]}
             />

@@ -37,7 +37,6 @@ export const UserProvider = ({ children }) => {
           );
         }
       } catch (e) {
-        console.log("Failed to load user data", e);
       } finally {
         setHasInitialized(true);
       }
@@ -50,9 +49,7 @@ export const UserProvider = ({ children }) => {
       try {
         const dataToSave = JSON.stringify({ name, workoutPlan, stats });
         await AsyncStorage.setItem(STORAGE_KEY, dataToSave);
-      } catch (e) {
-        console.log("Failed to save user data", e);
-      }
+      } catch (e) {}
     })();
   }, [name, workoutPlan, stats]);
 
