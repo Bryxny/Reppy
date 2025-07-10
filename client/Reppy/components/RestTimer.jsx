@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, Modal } from "react-native";
+import { View, Text, Button, Modal, TouchableOpacity } from "react-native";
 import { formatTime } from "../utils/formatTime";
 
 export default function RestTimer({ seconds, onFinish, onSkip }) {
@@ -26,45 +26,25 @@ export default function RestTimer({ seconds, onFinish, onSkip }) {
 
   return (
     <Modal transparent={true} animationType="fade">
-      <View style={styles.overlay}>
-        <View style={styles.timerBox}>
-          <Text>Rest Time</Text>
-          <Text>{formatTime(timeLeft)}</Text>
-          <Button
-            title="+30s"
-            onPress={() => {
-              setTimeLeft((prev) => prev + 30);
-            }}
-          />
-          <Button title="Skip Rest" onPress={onSkip} />
+      <View
+        className="flex-1 justify-center items-center"
+        style={{ backgroundColor: "rgba(0,0,0,0.85)" }}
+      >
+        <View className="bg-white p-10 rounded-xl items-center justify-center w-72 h-48">
+          <Text className="font-semibold mb-2 text-xl">Rest Timer</Text>
+          <Text className="text-4xl font-bold text-blue mb-5 mt-5 leading-none">
+            {formatTime(timeLeft)}
+          </Text>
+          <View className="flex-row gap-10">
+            <TouchableOpacity onPress={() => setTimeLeft((prev) => prev + 30)}>
+              <Text className="text-xl font-bold">+30s</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onSkip}>
+              <Text className="text-xl font-bold">skip</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  timerBox: {
-    backgroundColor: "white",
-    padding: 40,
-    borderRadius: 15,
-    alignItems: "center",
-    elevation: 10,
-  },
-  timerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  countdown: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: "red",
-  },
-});
