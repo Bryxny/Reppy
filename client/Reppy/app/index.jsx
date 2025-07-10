@@ -21,16 +21,7 @@ export default function Index() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    console.log(
-      "hasInitialized:",
-      hasInitialized,
-      "name:",
-      name,
-      "typeof name:",
-      typeof name
-    );
     if (hasInitialized && name && name.length > 0) {
-      console.log("redirecting");
       router.replace("/home");
     }
   }, [name, hasInitialized]);

@@ -141,7 +141,7 @@ export default function ExerciseProgress({
           onPress={addSet}
           className=" flex-row gap-3 justify-center"
         >
-          <FontAwesome5 name="plus" size={15} color="black" />{" "}
+          <FontAwesome5 name="plus" size={15} color="black" />
         </TouchableOpacity>
       </View>
 
