@@ -38,5 +38,6 @@ yarn-error.*
 
 app-example
 
-utils/api.js
+**/api.js
 nativewind-env.d.ts
+client/Reppy/utils/api.js
