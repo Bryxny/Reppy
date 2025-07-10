@@ -20,8 +20,10 @@ export default function Timer({ paused, elapsedRef }) {
   }, [paused]);
 
   return (
-    <View>
-      <Text>Elapsed: {formatTime(seconds)}</Text>
+    <View className="bg-black rounded-2xl p-2 px-3">
+      <Text className="color-green text-xl font-bold">
+        {formatTime(seconds)}
+      </Text>
     </View>
   );
 }
